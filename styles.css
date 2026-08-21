@@ -1,0 +1,67 @@
+/* Touch optimization & Disable text zoom/selection for native app feel */
+body {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.active-cell {
+    box-shadow: 0 0 0 3.5px #2563eb, inset 0 0 0 2px #ffffff;
+    animation: pulse-border 1.2s infinite;
+    background-color: #eff6ff !important;
+}
+
+@keyframes pulse-border {
+    0%, 100% { border-color: #2563eb; }
+    50% { border-color: #3b82f6; }
+}
+
+/* Custom scrollbar for grid if screen is very small */
+.custom-scroll::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+/* ===== CSS dành cho IN ẤN (rất quan trọng) ===== */
+@media print {
+    header,
+    footer,
+    #homeView,
+    #scaleView > section:not(#receiptContent),
+    button,
+    .no-print,
+    #toast,
+    #confirmModal,
+    #welcomeModal,
+    #newFarmerModal,
+    #settingsModal,
+    #historyModal,
+    #historyDetailModal {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        overflow: visible !important;
+        height: auto !important;
+    }
+
+    #billModal {
+        position: static !important;
+        background: white !important;
+        display: block !important;
+    }
+
+    #receiptContent {
+        box-shadow: none !important;
+        border: none !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
