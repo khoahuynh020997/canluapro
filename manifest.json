@@ -1,0 +1,25 @@
+{
+  "name": "Cân Lúa Pro 5.0 - Khoa Hoa Kỳ",
+  "short_name": "Cân Lúa Pro",
+  "description": "Ứng dụng cân lúa chuyên nghiệp cho chủ ghe/xe thu mua",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#d97706",
+  "orientation": "portrait",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3050/3050159.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3050/3050159.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
