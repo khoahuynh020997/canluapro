@@ -35,6 +35,12 @@
             }
         }
     </script>
+        <!-- PWA Manifest & Meta -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d97706">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Cân Lúa Pro">
 </head>
 <body class="bg-slate-100 text-slate-800 h-screen flex flex-col justify-between overflow-hidden">
 
@@ -572,5 +578,15 @@
     <script src="js/grid.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
+        <!-- Đăng ký Service Worker (PWA) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker đã đăng ký:', reg.scope))
+                    .catch(err => console.log('Lỗi Service Worker:', err));
+            });
+        }
+    </script>
 </body>
 </html>
