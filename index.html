@@ -113,16 +113,25 @@
             </section>
 
             <!-- Quick Start Action Banner -->
-            <section class="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-3.5 shadow flex justify-between items-center text-white">
-                <div>
-                    <h3 class="font-black text-sm">SẴN SÀNG CÂN LÚA?</h3>
-                    <p class="text-[11px] text-amber-100">Bắt đầu nhập thông tin nông dân mới</p>
-                </div>
-                <button onclick="openNewFarmerModal()" class="bg-white text-amber-800 hover:bg-amber-50 font-black px-3.5 py-2 rounded-lg text-xs shadow-md transition active:scale-95 flex items-center gap-1.5">
-                    <i class="fa-solid fa-user-plus text-amber-600"></i>
-                    <span>CÂN MỚI</span>
-                </button>
-            </section>
+<section class="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-3.5 shadow flex justify-between items-center text-white">
+    <div>
+        <h3 class="font-black text-sm">SẴN SÀNG CÂN LÚA?</h3>
+        <p class="text-[11px] text-amber-100">Bắt đầu nhập thông tin nông dân mới</p>
+    </div>
+    <div class="flex gap-2">
+        <!-- Nút Cài App -->
+        <a href="CanLuaPro.mobileconfig" 
+           class="bg-white/20 hover:bg-white/30 text-white font-black px-3 py-2 rounded-lg text-xs border border-white/40 shadow-md transition active:scale-95 flex items-center gap-1.5">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <span>CÀI APP</span>
+        </a>
+
+        <button onclick="openNewFarmerModal()" class="bg-white text-amber-800 hover:bg-amber-50 font-black px-3.5 py-2 rounded-lg text-xs shadow-md transition active:scale-95 flex items-center gap-1.5">
+            <i class="fa-solid fa-user-plus text-amber-600"></i>
+            <span>CÂN MỚI</span>
+        </button>
+    </div>
+</section>
 
             <!-- Recent Batches List under current Boat -->
             <section class="bg-white rounded-xl p-3 shadow-sm border border-slate-200 flex-1 flex flex-col min-h-0">
