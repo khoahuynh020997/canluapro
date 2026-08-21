@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cài đặt Cân Lúa Pro</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      text-align: center;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 340px;
+      width: 100%;
+    }
+    h2 {
+      margin: 0 0 10px;
+      color: #92400e;
+      font-size: 22px;
+    }
+    p {
+      color: #78716c;
+      font-size: 15px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    button {
+      background: #d97706;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 17px;
+      font-weight: 700;
+      border-radius: 14px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Cân Lúa Pro</h2>
+    <p>Nhấn nút bên dưới để cài icon ứng dụng lên màn hình chính</p>
+    <button onclick="install()">Cài đặt ngay</button>
+  </div>
+
+  <script>
+    async function install() {
+      try {
+        const response = await fetch('./CanLuaPro.mobileconfig');
+        const blob = await response.blob();
+        const file = new Blob([blob], { type: 'application/x-apple-aspen-config' });
+        const url = URL.createObjectURL(file);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'CanLuaPro.mobileconfig';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        alert('Có lỗi xảy ra. Hãy thử lại hoặc dùng Safari.');
+      }
+    }
+  </script>
+</body>
+</html>
