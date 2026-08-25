@@ -2,7 +2,7 @@
 // Service Worker - Phiên bản cải tiến cho Safari
 // ============================================
 
-const CACHE_NAME = 'can-lua-pro-v3';
+const CACHE_NAME = 'can-lua-pro-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -12,7 +12,8 @@ const ASSETS = [
   './js/calc.js',
   './js/grid.js',
   './js/ui.js',
-  './js/app.js'
+  './js/app.js',
+  './js/stats.js'
 ];
 
 // Cài đặt

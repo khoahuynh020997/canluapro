@@ -14,6 +14,7 @@ window.onload = () => {
     selectCell(0);
     updateSummary();
     renderHomeDashboard();
+    startUsageTracking();
 
     // Hiện welcome modal sau 100ms
     setTimeout(() => {
