@@ -225,31 +225,24 @@
             </section>
 
             <!-- Keypad & Auto-Entry Section -->
-            <section class="bg-white rounded-xl p-1 shadow-sm border border-slate-200 flex-[2] flex flex-col justify-between min-h-0">
-                
-                <div class="flex items-center justify-end gap-1 flex-none">
-                    <button type="button" data-frac="0.2" class="keypad-btn bg-amber-100 text-amber-900 border border-amber-300 font-black px-2 py-1 rounded-lg text-xs">+0.2</button>
-                    <button type="button" data-frac="0.5" class="keypad-btn bg-amber-100 text-amber-900 border border-amber-300 font-black px-2 py-1 rounded-lg text-xs">+0.5</button>
-                    <button type="button" data-frac="0.8" class="keypad-btn bg-amber-100 text-amber-900 border border-amber-300 font-black px-2 py-1 rounded-lg text-xs">+0.8</button>
-                </div>
-
-                <div class="grid grid-cols-12 gap-1 flex-1 min-h-0 pt-0.5">
+            <section class="bg-white rounded-xl p-1 shadow-sm border border-slate-200 flex-[2] flex flex-col min-h-0">
+                <div class="grid grid-cols-12 gap-1 flex-1 min-h-0">
                     <div class="col-span-9 grid grid-cols-3 gap-1 h-full">
-                        <button type="button" data-num="7" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">7</button>
-                        <button type="button" data-num="8" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">8</button>
-                        <button type="button" data-num="9" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">9</button>
+                        <button type="button" data-num="7" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">7</button>
+                        <button type="button" data-num="8" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">8</button>
+                        <button type="button" data-num="9" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">9</button>
                         
-                        <button type="button" data-num="4" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">4</button>
-                        <button type="button" data-num="5" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">5</button>
-                        <button type="button" data-num="6" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">6</button>
+                        <button type="button" data-num="4" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">4</button>
+                        <button type="button" data-num="5" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">5</button>
+                        <button type="button" data-num="6" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">6</button>
                         
-                        <button type="button" data-num="1" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">1</button>
-                        <button type="button" data-num="2" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">2</button>
-                        <button type="button" data-num="3" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">3</button>
+                        <button type="button" data-num="1" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">1</button>
+                        <button type="button" data-num="2" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">2</button>
+                        <button type="button" data-num="3" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">3</button>
                         
-                        <button type="button" data-num="0" class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">0</button>
-                        <button type="button" data-num="." class="keypad-btn bg-slate-100 text-slate-800 font-black text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">.</button>
-                        <button type="button" id="keypadBackspace" class="keypad-btn bg-rose-100 text-rose-700 font-bold text-lg rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">
+                        <button type="button" data-num="0" class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">0</button>
+                        <button type="button" data-num="." class="keypad-btn bg-slate-100 text-slate-800 font-black text-2xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">.</button>
+                        <button type="button" id="keypadBackspace" class="keypad-btn bg-rose-100 text-rose-700 font-bold text-xl rounded-lg border border-slate-300 shadow-sm h-full flex items-center justify-center">
                             <i class="fa-solid fa-backspace"></i>
                         </button>
                     </div>
@@ -385,7 +378,7 @@
                         <input type="number" id="settingDeduct" step="0.1" min="0" value="0.0" class="w-full p-2 border border-slate-300 rounded-lg font-bold text-slate-800">
                         <span class="font-bold text-slate-500">kg</span>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-1">Trừ trực tiếp số kg trên tổng (vd: nhập <b>2</b> = trừ đúng <b>2 kg</b>).</p>
+                    <p class="text-[10px] text-slate-500 mt-1">Trừ trực tiếp số kg trên tổng đợt cân <b>nông dân hiện tại</b> (vd: <b>5</b> = trừ đúng 5 kg). Nông dân mới mặc định 0 kg.</p>
                 </div>
                 <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-200">
                     <label class="flex items-center justify-between font-semibold text-slate-800 cursor-pointer">
@@ -637,7 +630,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=5')
+                navigator.serviceWorker.register('./sw.js?v=6')
                     .then(reg => console.log('Service Worker đã đăng ký:', reg.scope))
                     .catch(err => console.log('Lỗi Service Worker:', err));
             });

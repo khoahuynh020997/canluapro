@@ -84,6 +84,7 @@ function confirmCreateNewFarmer() {
     config.farmerAddress = address;
     config.riceType = riceType;
     config.price = price;
+    setSessionDeduct(0);
 
     document.getElementById('farmerName').value = name;
     document.getElementById('riceType').value = riceType;
@@ -103,6 +104,7 @@ function clearGridForNextFarmer(resetFarmerName = true) {
     if (badge) badge.classList.add('hidden');
 
     clearGridData();
+    setSessionDeduct(0);
 
     if (resetFarmerName) {
         document.getElementById('farmerName').value = "Nông Dân Mới";
@@ -132,7 +134,7 @@ function saveSettings() {
 
     config.tarePerBag = isNaN(parsedTare) ? 0.125 : parsedTare;
     const deductInput = (document.getElementById('settingDeduct').value || "0").replace(',', '.');
-    config.deductRatio = parseFloat(deductInput) || 0;
+    setSessionDeduct(parseFloat(deductInput) || 0);
     config.autoDecimal = document.getElementById('settingAutoDecimal').checked;
     config.voiceEnabled = document.getElementById('settingVoice').checked;
 
@@ -143,10 +145,16 @@ function saveSettings() {
     saveConfig(config);
     audioEnabled = config.voiceEnabled;
     closeSettingsModal();
-    showToast("Đã lưu cấu hình!");
+    showToast("Đã lưu cấu hình đợt cân này!");
 }
 
 // ===== Bàn phím số (nhấn là hiện ngay trên ô, rung, không trễ) =====
+function setSessionDeduct(kg) {
+    config.deductRatio = Math.max(0, parseFloat(kg) || 0);
+    const el = document.getElementById('settingDeduct');
+    if (el) el.value = config.deductRatio;
+}
+
 function haptic(ms = 12) {
     try {
         if (navigator.vibrate) navigator.vibrate(ms);
@@ -193,12 +201,6 @@ function initInstantKeypad() {
         bindInstant(btn, () => {
             haptic(10);
             pressNum(btn.getAttribute('data-num'));
-        });
-    });
-    document.querySelectorAll('[data-frac]').forEach((btn) => {
-        bindInstant(btn, () => {
-            haptic(12);
-            quickAddFraction(btn.getAttribute('data-frac'));
         });
     });
     bindInstant(document.getElementById('keypadBackspace'), () => {
@@ -294,20 +296,6 @@ function autoSubmitInputValue() {
     moveToNextCell();
 }
 
-function quickAddFraction(fracStr) {
-    let baseVal = 50.0;
-    if (gridData[currentIndex] !== null) {
-        baseVal = Math.floor(gridData[currentIndex]);
-    } else if (currentInputStr) {
-        baseVal = Math.floor(parseFloat(getParsedInputValue()) || 50);
-    }
-
-    const val = (baseVal + parseFloat(fracStr)).toFixed(1);
-    currentInputStr = val.toString();
-    updateLiveCellDisplay();
-    autoSubmitInputValue();
-}
-
 function moveToNextCell() {
     currentInputStr = "";
 
@@ -373,6 +361,7 @@ function saveBatchToHistory() {
         netWeight: result.netWeight,
         totalTare: result.totalTare,
         tareRate: config.tarePerBag,
+        deductKg: config.deductRatio || 0,
         deposit,
         totalAmount: money.totalAmount,
         remainingAmount: money.remaining,
@@ -420,6 +409,7 @@ function loadBatchForEditing(batchId) {
     config.riceType = record.riceType || "ST25";
     config.price = record.price || 8500;
     if (record.tareRate) config.tarePerBag = record.tareRate;
+    setSessionDeduct(record.deductKg != null ? record.deductKg : 0);
 
     document.getElementById('farmerName').value = config.farmer;
     document.getElementById('riceType').value = config.riceType;

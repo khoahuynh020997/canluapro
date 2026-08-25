@@ -38,11 +38,10 @@ function saveToStorage(key, value) {
 
 // ===== Cấu hình (Config) =====
 function loadConfig() {
-    const saved = loadFromStorage(STORAGE_KEYS.CONFIG, {});
-    // deductRatio giờ là số kg trừ trực tiếp (không còn là %)
+    const saved = loadFromStorage(STORAGE_KEYS.CONFIG, {}) || {};
+    // deductRatio là theo từng đợt/nông dân, không lấy từ cấu hình chung
     return {
         tarePerBag: 0.125,
-        deductRatio: 0.0,
         autoDecimal: true,
         voiceEnabled: true,
         boatName: "Ghe anh Tám (Kiên Giang)",
@@ -51,12 +50,15 @@ function loadConfig() {
         farmerAddress: "",
         riceType: "ST25",
         price: 8500,
-        ...saved
+        ...saved,
+        deductRatio: 0.0
     };
 }
 
 function saveConfig(config) {
-    return saveToStorage(STORAGE_KEYS.CONFIG, config);
+    const persist = { ...config };
+    delete persist.deductRatio;
+    return saveToStorage(STORAGE_KEYS.CONFIG, persist);
 }
 
 // ===== Lịch sử (History) =====

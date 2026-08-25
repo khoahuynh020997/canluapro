@@ -2,7 +2,7 @@
 // Service Worker - Network first để nhận bản cập nhật ngay
 // ============================================
 
-const CACHE_NAME = 'can-lua-pro-v5';
+const CACHE_NAME = 'can-lua-pro-v6';
 const ASSETS = [
   './',
   './index.html',
