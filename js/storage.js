@@ -39,7 +39,7 @@ function saveToStorage(key, value) {
 // ===== Cấu hình (Config) =====
 function loadConfig() {
     const saved = loadFromStorage(STORAGE_KEYS.CONFIG, {});
-    // Gộp với giá trị mặc định
+    // deductRatio giờ là số kg trừ trực tiếp (không còn là %)
     return {
         tarePerBag: 0.125,
         deductRatio: 0.0,

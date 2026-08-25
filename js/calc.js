@@ -6,10 +6,10 @@
  * Tính toán toàn bộ số liệu từ gridData
  * @param {Array} gridData - Mảng dữ liệu cân
  * @param {number} tarePerBag - Trọng lượng bì mỗi bao (kg)
- * @param {number} deductRatio - Tỷ lệ trừ hao (%)
+ * @param {number} deductKg - Số kg trừ hao tạp chất (trừ trực tiếp, không phải %)
  * @returns {Object} Kết quả tính toán
  */
-function calculateAll(gridData, tarePerBag = 0.125, deductRatio = 0) {
+function calculateAll(gridData, tarePerBag = 0.125, deductKg = 0) {
     let totalBags = 0;
     let grossWeight = 0;
 
@@ -21,7 +21,7 @@ function calculateAll(gridData, tarePerBag = 0.125, deductRatio = 0) {
     }
 
     const totalTare = totalBags * (parseFloat(tarePerBag) || 0);
-    const totalDeduct = ((grossWeight - totalTare) * ((parseFloat(deductRatio) || 0) / 100));
+    const totalDeduct = Math.max(0, parseFloat(deductKg) || 0);
     const netWeight = Math.max(0, grossWeight - totalTare - totalDeduct);
 
     return {

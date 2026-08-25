@@ -1,8 +1,8 @@
 // ============================================
-// Service Worker - Phiên bản cải tiến cho Safari
+// Service Worker - Network first để nhận bản cập nhật ngay
 // ============================================
 
-const CACHE_NAME = 'can-lua-pro-v4';
+const CACHE_NAME = 'can-lua-pro-v5';
 const ASSETS = [
   './',
   './index.html',
@@ -16,58 +16,46 @@ const ASSETS = [
   './js/stats.js'
 ];
 
-// Cài đặt
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-// Kích hoạt - xóa cache cũ
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-      );
-    })
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
+    )
   );
   self.clients.claim();
 });
 
-// Chiến lược: Cache First + fallback
 self.addEventListener('fetch', (event) => {
-  // Bỏ qua request không cùng origin (CDN)
   if (!event.request.url.startsWith(self.location.origin)) {
     return;
   }
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
-
-      return fetch(event.request)
-        .then((response) => {
-          if (!response || response.status !== 200) {
-            return response;
-          }
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.status === 200 && event.request.method === 'GET') {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, clone);
           });
-          return response;
-        })
-        .catch(() => {
-          // Offline → ưu tiên trả index.html
+        }
+        return response;
+      })
+      .catch(() =>
+        caches.match(event.request).then((cached) => {
+          if (cached) return cached;
           if (event.request.mode === 'navigate') {
             return caches.match('./index.html');
           }
-        });
-    })
+          return undefined;
+        })
+      )
   );
 });

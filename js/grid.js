@@ -43,9 +43,10 @@ function buildGridUI() {
             const baoNumber = globalIndex + 1;
 
             const cellBtn = document.createElement('button');
+            cellBtn.type = "button";
             cellBtn.id = `cell-${globalIndex}`;
             cellBtn.onclick = () => selectCell(globalIndex);
-            cellBtn.className = "cell-item bg-white border border-slate-200 rounded py-0.5 px-0.5 flex flex-col items-center justify-center transition relative h-full min-h-[40px]";
+            cellBtn.className = "cell-item bg-white border border-slate-200 rounded py-0.5 px-0.5 flex flex-col items-center justify-center relative h-full min-h-[40px]";
 
             cellBtn.innerHTML = `
                 <span class="text-[9px] text-slate-400 font-extrabold leading-none">Bao ${baoNumber}</span>
@@ -89,24 +90,27 @@ function selectCell(index) {
         buildGridUI();
     }
 
-    // Bỏ highlight ô cũ
-    const prevCell = document.getElementById(`cell-${currentIndex}`);
+    const prevIndex = currentIndex;
+    const prevCell = document.getElementById(`cell-${prevIndex}`);
     if (prevCell) {
         prevCell.classList.remove('active-cell', 'bg-blue-50', 'border-blue-500');
     }
 
+    // Bỏ số đang gõ dở trên ô cũ, khôi phục giá trị đã lưu
+    if (prevIndex !== index) {
+        currentInputStr = "";
+        updateCellUI(prevIndex);
+    }
+
     currentIndex = index;
     currentInputStr = "";
-    const display = document.getElementById('keypadDisplay');
-    if (display) display.innerText = "0";
 
     const newCell = document.getElementById(`cell-${currentIndex}`);
     if (newCell) {
         newCell.classList.add('active-cell');
     }
 
-    const baoLabel = document.getElementById('currentBaoLabel');
-    if (baoLabel) baoLabel.innerText = `#${currentIndex + 1}`;
+    updateCellUI(currentIndex);
 }
 
 /**
@@ -118,6 +122,8 @@ function updateCellUI(index) {
 
     const valText = cell.querySelector('.val-text');
     if (!valText) return;
+
+    valText.classList.remove('typing');
 
     if (gridData[index] !== null && gridData[index] !== undefined) {
         valText.innerText = gridData[index].toFixed(1);

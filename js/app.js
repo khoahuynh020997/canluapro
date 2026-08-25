@@ -20,6 +20,8 @@ window.onload = () => {
     setTimeout(() => {
         openWelcomeModal();
     }, 100);
+
+    initInstantKeypad();
 };
 
 // Đưa config lên các ô input
@@ -129,7 +131,8 @@ function saveSettings() {
     const parsedTare = parseFloat(tareInput);
 
     config.tarePerBag = isNaN(parsedTare) ? 0.125 : parsedTare;
-    config.deductRatio = parseFloat(document.getElementById('settingDeduct').value) || 0;
+    const deductInput = (document.getElementById('settingDeduct').value || "0").replace(',', '.');
+    config.deductRatio = parseFloat(deductInput) || 0;
     config.autoDecimal = document.getElementById('settingAutoDecimal').checked;
     config.voiceEnabled = document.getElementById('settingVoice').checked;
 
@@ -143,17 +146,85 @@ function saveSettings() {
     showToast("Đã lưu cấu hình!");
 }
 
-// ===== Bàn phím số =====
+// ===== Bàn phím số (nhấn là hiện ngay trên ô, rung, không trễ) =====
+function haptic(ms = 12) {
+    try {
+        if (navigator.vibrate) navigator.vibrate(ms);
+    } catch (e) {
+        // Một số trình duyệt chặn vibrate
+    }
+}
+
+function bindInstant(el, handler) {
+    if (!el) return;
+    let fromPointer = false;
+
+    el.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        e.preventDefault();
+        fromPointer = true;
+        el.classList.add('pressed');
+        handler(e);
+    }, { passive: false });
+
+    const release = () => el.classList.remove('pressed');
+    el.addEventListener('pointerup', () => {
+        release();
+        setTimeout(() => { fromPointer = false; }, 250);
+    });
+    el.addEventListener('pointercancel', () => {
+        release();
+        fromPointer = false;
+    });
+    el.addEventListener('pointerleave', release);
+
+    el.addEventListener('click', (e) => {
+        if (fromPointer) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+        handler(e);
+    });
+}
+
+function initInstantKeypad() {
+    document.querySelectorAll('[data-num]').forEach((btn) => {
+        bindInstant(btn, () => {
+            haptic(10);
+            pressNum(btn.getAttribute('data-num'));
+        });
+    });
+    document.querySelectorAll('[data-frac]').forEach((btn) => {
+        bindInstant(btn, () => {
+            haptic(12);
+            quickAddFraction(btn.getAttribute('data-frac'));
+        });
+    });
+    bindInstant(document.getElementById('keypadBackspace'), () => {
+        haptic(10);
+        deleteDigit();
+    });
+    bindInstant(document.getElementById('btnDeleteBag'), () => {
+        haptic(18);
+        deleteCurrentBagValue();
+    });
+    bindInstant(document.getElementById('btnOpenBill'), () => {
+        haptic(15);
+        openBillModal();
+    });
+}
+
 function pressNum(digit) {
     if (digit === '.' && currentInputStr.includes('.')) return;
 
-    if (currentInputStr === "0") {
+    if (currentInputStr === "0" && digit !== '.') {
         currentInputStr = digit;
     } else {
         currentInputStr += digit;
     }
 
-    updateKeypadDisplay();
+    updateLiveCellDisplay();
 
     if (config.autoDecimal && !currentInputStr.includes('.') && currentInputStr.length === 3) {
         autoSubmitInputValue();
@@ -162,15 +233,17 @@ function pressNum(digit) {
 
 function deleteDigit() {
     currentInputStr = currentInputStr.slice(0, -1);
-    updateKeypadDisplay();
+    updateLiveCellDisplay();
 }
 
-function updateKeypadDisplay() {
-    const display = document.getElementById('keypadDisplay');
-    if (!display) return;
+function updateLiveCellDisplay() {
+    const cell = document.getElementById(`cell-${currentIndex}`);
+    if (!cell) return;
+    const valText = cell.querySelector('.val-text');
+    if (!valText) return;
 
     if (!currentInputStr) {
-        display.innerText = "0";
+        updateCellUI(currentIndex);
         return;
     }
 
@@ -179,7 +252,9 @@ function updateKeypadDisplay() {
         formattedVal = (parseFloat(currentInputStr) / 10).toFixed(1);
     }
 
-    display.innerText = formattedVal;
+    valText.innerText = formattedVal;
+    valText.classList.remove('text-slate-800', 'text-blue-700');
+    valText.classList.add('text-amber-600', 'font-black', 'typing');
 }
 
 function getParsedInputValue() {
@@ -202,6 +277,14 @@ function autoSubmitInputValue() {
 
     gridData[currentIndex] = val;
     updateCellUI(currentIndex);
+
+    const cell = document.getElementById(`cell-${currentIndex}`);
+    if (cell) {
+        cell.classList.remove('just-saved');
+        void cell.offsetWidth;
+        cell.classList.add('just-saved');
+    }
+
     updateSummary();
 
     if (config.voiceEnabled) {
@@ -221,14 +304,12 @@ function quickAddFraction(fracStr) {
 
     const val = (baseVal + parseFloat(fracStr)).toFixed(1);
     currentInputStr = val.toString();
-    updateKeypadDisplay();
+    updateLiveCellDisplay();
     autoSubmitInputValue();
 }
 
 function moveToNextCell() {
     currentInputStr = "";
-    const display = document.getElementById('keypadDisplay');
-    if (display) display.innerText = "0";
 
     const isEndOfColumn = (currentIndex + 1) % ROWS_PER_COL === 0;
     if (isEndOfColumn && config.voiceEnabled) {

@@ -118,7 +118,6 @@ function openBillModal() {
     document.getElementById('billTareRate').innerText = formatNumber(config.tarePerBag, 3);
     document.getElementById('billTotalTare').innerText = `-${result.totalTare} kg`;
 
-    document.getElementById('billDeductRate').innerText = formatNumber(config.deductRatio, 1);
     document.getElementById('billTotalDeduct').innerText = `-${result.totalDeduct} kg`;
     document.getElementById('billNetWeight').innerText = `${result.netWeight} kg`;
     document.getElementById('billTotalAmount').innerText = `${formatMoney(money.totalAmount)} đ`;
