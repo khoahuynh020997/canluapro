@@ -29,7 +29,8 @@ function calculateAll(gridData, tarePerBag = 0.125, deductRatio = 0) {
         grossWeight: parseFloat(grossWeight.toFixed(1)),
         totalTare: parseFloat(totalTare.toFixed(3)),
         totalDeduct: parseFloat(totalDeduct.toFixed(1)),
-        netWeight: parseFloat(netWeight.toFixed(1))
+        // Thực thu mua: làm tròn thành số nguyên kg (vd: 606.9 → 607)
+        netWeight: Math.round(netWeight)
     };
 }
 
