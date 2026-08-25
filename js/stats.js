@@ -41,6 +41,9 @@ function statsPayload() {
 
 async function pingUsage(isNewOpen) {
     try {
+        const host = location.hostname;
+        if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0') return;
+
         if (isNewOpen) {
             const opens = (parseInt(localStorage.getItem(STATS_OPENS_KEY) || '0', 10) || 0) + 1;
             localStorage.setItem(STATS_OPENS_KEY, String(opens));
